@@ -1,32 +1,27 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 /**
- * Subtle cursor magnetism for premium CTAs.
- * Element drifts toward the cursor inside its bounds — never more than 8px.
- * Disabled when prefers-reduced-motion.
+ * Magnetic , element follows cursor on hover by 30% of distance.
+ * Desktop only. Spring back on leave.
  */
-export default function Magnetic({
-  children,
-  className,
-  strength = 0.22,
-  ...rest
-}) {
+export default function Magnetic({ children, className = "", strength = 0.3 }) {
   const ref = useRef(null);
-  const reduced = useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 180, damping: 20, mass: 0.5 });
-  const sy = useSpring(y, { stiffness: 180, damping: 20, mass: 0.5 });
+
+  const sx = useSpring(x, { damping: 15, stiffness: 150, mass: 0.4 });
+  const sy = useSpring(y, { damping: 15, stiffness: 150, mass: 0.4 });
 
   const onMove = (e) => {
-    if (reduced || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const dx = e.clientX - (rect.left + rect.width / 2);
-    const dy = e.clientY - (rect.top + rect.height / 2);
-    x.set(dx * strength);
-    y.set(dy * strength);
+    if (window.matchMedia?.("(pointer: coarse)").matches) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    x.set((e.clientX - cx) * strength);
+    y.set((e.clientY - cy) * strength);
   };
 
   const onLeave = () => {
@@ -35,15 +30,14 @@ export default function Magnetic({
   };
 
   return (
-    <motion.span
+    <motion.div
       ref={ref}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       style={{ x: sx, y: sy }}
       className={className}
-      {...rest}
     >
       {children}
-    </motion.span>
+    </motion.div>
   );
 }

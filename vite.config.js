@@ -2,6 +2,8 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 
+const port = Number(process.env.PORT) || 3000;
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
@@ -11,14 +13,14 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3000,
+    port,
     strictPort: false,
     host: true,
     historyApiFallback: true,
   },
   preview: {
-    port: 4173,
-    strictPort: true,
+    port,
+    strictPort: false,
     historyApiFallback: true,
   },
   build: {

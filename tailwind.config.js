@@ -4,62 +4,46 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: {
-          DEFAULT: "#0D1B2A",
-          50: "#f4f5f7",
-          100: "#dde1e7",
-          200: "#b9c0cd",
-          300: "#8994a7",
-          400: "#5a6782",
-          500: "#384462",
-          600: "#1f2a44",
-          700: "#152036",
-          800: "#0D1B2A",
-          900: "#060d17",
-          950: "#02060d",
-        },
-        gold: {
-          DEFAULT: "#C9A84C",
-          50: "#faf6ea",
-          100: "#f4eccb",
-          200: "#ead793",
-          300: "#dcbe5c",
-          400: "#C9A84C",
-          500: "#b08e38",
-          600: "#8d6f2d",
-          700: "#6b5322",
-          800: "#483818",
-          900: "#29200d",
-        },
-        bone: "#E8E4DA",
-        ink: "#0D1B2A",
+        // Core surface tokens
+        background: "#050A0E",
+        surface: "#0A1628",
+        border: "#1A2535",
+        // Brand orange spectrum
+        primary: "#FF6B2B",
+        secondary: "#FFB347",
+        glow: "#FF3D00",
+        // Text
+        "text-primary": "#F0F4F8",
+        "text-muted": "#6B7A8D",
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', "ui-serif", "Georgia", "serif"],
-        sans: ['"Manrope"', "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["Syne", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ['"JetBrains Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
       },
       fontSize: {
-        // Editorial scale
-        "display-xl": ["clamp(3.5rem, 8vw, 7rem)", { lineHeight: "0.98", letterSpacing: "-0.02em" }],
-        "display-lg": ["clamp(2.75rem, 6vw, 5rem)", { lineHeight: "1.02", letterSpacing: "-0.02em" }],
-        "display-md": ["clamp(2rem, 4vw, 3.25rem)", { lineHeight: "1.08", letterSpacing: "-0.015em" }],
+        "display-xl": ["clamp(52px, 7vw, 96px)", { lineHeight: "1.0", letterSpacing: "-0.02em" }],
+        "display-lg": ["clamp(40px, 6vw, 80px)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
+        "display-md": ["clamp(32px, 4vw, 52px)", { lineHeight: "1.1", letterSpacing: "-0.015em" }],
       },
       letterSpacing: {
         eyebrow: "0.22em",
       },
       spacing: {
-        "scene-y": "clamp(6rem, 12vh, 10rem)",
+        "scene-y": "clamp(5rem, 12vh, 7.5rem)",
       },
       transitionTimingFunction: {
-        // Luxury cubic beziers — no bounce, controlled in/out
-        "io-silk": "cubic-bezier(0.22, 1, 0.36, 1)",
-        "io-editorial": "cubic-bezier(0.65, 0, 0.35, 1)",
-        "io-authority": "cubic-bezier(0.83, 0, 0.17, 1)",
+        "out-quart": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+        "out-cubic": "cubic-bezier(0.33, 1, 0.68, 1)",
       },
       transitionDuration: {
-        fast: "220ms",
-        base: "520ms",
-        slow: "900ms",
+        fast: "250ms",
+        normal: "500ms",
+        slow: "800ms",
+      },
+      boxShadow: {
+        "glow-orange": "0 0 30px rgba(255, 107, 43, 0.25)",
+        "glow-soft": "0 0 60px rgba(255, 107, 43, 0.15)",
       },
     },
   },

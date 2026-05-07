@@ -1,70 +1,53 @@
 import { motion } from "framer-motion";
-import { duration, ease } from "@/utils/motion";
-import { cn } from "@/utils/cn";
+import { ease } from "@/utils/motion";
 
 /**
- * Editorial word-by-word reveal for headlines.
- * Each word rises + fades in with a tight stagger.
- *
- * Props:
- *   text      — the string to reveal
- *   as        — wrapping element (default 'h1')
- *   gap       — seconds between words (default 0.055)
- *   delay     — seconds before first word
- *   startHidden — if true, initial state is hidden (otherwise relies on parent variants)
+ * RevealText , splits content into lines and reveals each line through
+ * a clipping mask from the bottom. Pass an array of lines via `lines`
+ * or a single string via `text`.
  */
 export default function RevealText({
+  lines,
   text,
-  as: Tag = "h1",
-  className,
-  gap = 0.055,
+  as = "h2",
+  className = "",
+  lineClassName = "",
   delay = 0,
-  startHidden = true,
-  wordClassName,
+  stagger = 0.15,
+  duration = 0.7,
+  once = true,
 }) {
-  const words = String(text).split(" ");
-
-  const container = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: gap, delayChildren: delay },
-    },
-  };
-
-  const word = {
-    hidden: { opacity: 0, y: "0.55em", filter: "blur(6px)" },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { duration: duration.hero, ease: ease.silk },
-    },
-  };
+  const arr = lines || (text ? [text] : []);
+  const Tag = as;
 
   return (
-    <Tag className={cn("overflow-hidden", className)} aria-label={text}>
-      <motion.span
-        className="inline-block"
-        variants={container}
-        initial={startHidden ? "hidden" : false}
-        animate="visible"
-        aria-hidden="true"
-      >
-        {words.map((w, i) => (
-          <span
-            key={`${w}-${i}`}
-            className="inline-block overflow-hidden align-baseline"
+    <Tag className={className}>
+      {arr.map((line, i) => (
+        <motion.span
+          key={i}
+          className="block overflow-hidden"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once, margin: "-10%" }}
+        >
+          <motion.span
+            className={`block ${lineClassName}`}
+            variants={{
+              hidden: { y: "110%" },
+              visible: {
+                y: "0%",
+                transition: {
+                  duration,
+                  ease: ease.primary,
+                  delay: delay + i * stagger,
+                },
+              },
+            }}
           >
-            <motion.span
-              variants={word}
-              className={cn("inline-block will-change-transform", wordClassName)}
-            >
-              {w}
-              {i < words.length - 1 ? "\u00A0" : ""}
-            </motion.span>
-          </span>
-        ))}
-      </motion.span>
+            {line}
+          </motion.span>
+        </motion.span>
+      ))}
     </Tag>
   );
 }

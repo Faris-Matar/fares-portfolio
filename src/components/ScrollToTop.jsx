@@ -8,8 +8,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  *
  * Order on every navigation:
  *   1. Drive Lenis (or window) back to 0 immediately.
- *   2. After two animation frames — i.e. once the new route has rendered
- *      and the browser has laid it out — call ScrollTrigger.refresh() so
+ *   2. After two animation frames , i.e. once the new route has rendered
+ *      and the browser has laid it out , call ScrollTrigger.refresh() so
  *      any triggers registered by the new page have correct positions.
  *
  * Mount once inside <BrowserRouter>. Returns null.

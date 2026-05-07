@@ -1,36 +1,28 @@
 import { motion } from "framer-motion";
-import { fadeUp, viewport } from "@/utils/motion";
+import { ease } from "@/utils/motion";
 
 /**
- * Reusable reveal wrapper — fades + lifts content on viewport entry.
- * Use instead of raw <motion.div> when you just need "appear nicely".
- *
- * Props:
- *   variants  — override default fadeUp variants
- *   delay     — seconds
- *   as        — element (default 'div')
+ * FadeIn , fades & slides content into view as it enters the viewport.
  */
 export default function FadeIn({
   children,
-  className,
-  variants = fadeUp,
   delay = 0,
-  once = true,
+  y = 20,
+  duration = 0.6,
+  className = "",
   as = "div",
-  ...rest
+  once = true,
 }) {
-  const Tag = motion[as] ?? motion.div;
+  const MotionTag = motion[as] || motion.div;
   return (
-    <Tag
+    <MotionTag
       className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ ...viewport, once }}
-      variants={variants}
-      transition={variants?.visible?.transition ? { ...variants.visible.transition, delay } : { delay }}
-      {...rest}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once, margin: "-10%" }}
+      transition={{ duration, ease: ease.primary, delay }}
     >
       {children}
-    </Tag>
+    </MotionTag>
   );
 }
